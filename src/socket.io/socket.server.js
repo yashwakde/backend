@@ -34,7 +34,7 @@ function initsocketserver(httpServer){
                 content:messagePayload.content,
                 role:"user",
             })
-            const chathistory = await messagemodel.find({chat:messagePayload.chat});
+            const chathistory = (await messagemodel.find({chat:messagePayload.chat}).sort({createdAt:-1}).limit(20).lean()).reverse();
              const response = await generateResponse( chathistory.map(item=>{
                 return{
                     role:item.role,
